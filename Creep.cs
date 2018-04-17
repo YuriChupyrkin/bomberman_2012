@@ -252,8 +252,8 @@ namespace BomberMan
     //рисуем
     public void DrawCreep(SpriteBatch spriteBatch, bots B)
     {
-      int frameWidth = _environment.Hero_go_right_tex.Width / this.FrameCount;
-      Rectangle creep_rec = new Rectangle(frameWidth * this.frame, 0, frameWidth, _environment.Hero_go_right_tex.Height);
+      int frameWidth = B.creep_go_right_tex.Width / this.FrameCount;
+      Rectangle creep_rec = new Rectangle(frameWidth * this.frame, 0, frameWidth, B.creep_go_right_tex.Height);
 
       spriteBatch.Begin();
 

@@ -41,18 +41,13 @@ namespace BomberMan
         public int frame;//какой фрейм нарисован в данный момент 
         public float TimeForFrame;//Сколько времени нужно показывать один фрейм (скорость) 
         public float TotalTime;//сколько времени прошло с показа предыдущего фрейма
-        public Rectangle hero_rec;
-        public Rectangle hero_rec2;
-        public Texture2D Hero_texture;
-        public Texture2D Hero_go_left_tex;
-        public Texture2D Hero_go_right_tex;
-        public Texture2D Hero_go_down_tex;
-        public Texture2D Hero_go_up_tex;
+
+
         public Texture2D bombTex;
         public Vector2 bombPos;
-        public Vector2 Hero_pos;
+        //public Vector2 Hero_pos;
         public Texture2D tmpTex;
-        public Vector2 tmpPos;
+       // public Vector2 tmpPos;
         public Texture2D bon_tolk_Tex;
         public Vector2 bon_tolk_Pos;
         public Texture2D bon_rad_Tex;
@@ -85,45 +80,118 @@ namespace BomberMan
         public SoundEffect plant_bomb_mus;
         public SoundEffect player_dead_mus;
 
-        public environment(int sizeX = 16, int sizeY = 25, int cellWidth = 40, int cellHeight = 40)
+        public environment(
+          bool devMode = false,
+          int sizeX = 16,
+          int sizeY = 25,
+          int cellWidth = 40,
+          int cellHeight = 40)
         {
-            frame = 0;
-            TimeForFrame = (float)1 / 5;
-            TotalTime = 0;
-            FrameCount = 5; // <---- tut kol kadrov
+          frame = 0;
+          TimeForFrame = (float)1 / 5;
+          TotalTime = 0;
+          FrameCount = 5; // <---- tut kol kadrov
 
-            size1 = sizeX;
-            size2 = sizeY;
-            X_cell = cellWidth;
-            Y_cell = cellHeight;
-            max_num_bomb = 10;
-            curent_num_bomb = 0;
+          size1 = sizeX;
+          size2 = sizeY;
+          X_cell = cellWidth;
+          Y_cell = cellHeight;
+          max_num_bomb = 10;
+          player_dead = false;
+          player_speed = 2;
+          globalGameTime = 0;
+          int_game_time = 0;
+
+          if (devMode)
+          {
             bonus_tolk = true;
-            rad_bang = 15;
-            player_dead = false;
-            player_speed = 2;
-            globalGameTime = 0;
-            int_game_time = 0;
+            rad_bang = 25;
+            curent_num_bomb = 5;
+          }
+          else
+          {
+            bonus_tolk = false;
+            rad_bang = 1;
+            curent_num_bomb = 0;
+          }
 
-            creep_speed = 1;
-            creep_kill = 0;
+          creep_speed = 1;
+          creep_kill = 0;
 
-            curent_lvl = 1;
-            lvl_up = false;
-            lvl_start = true;
-            lvl_start_time = 0;
-            key_lock = true;
-            bot_add_time = 10000;
-            need_add_bot = false;
-            WIN = false;
+          curent_lvl = 1;
+          lvl_up = false;
+          lvl_start = true;
+          lvl_start_time = 0;
+          key_lock = true;
+          bot_add_time = 10000;
+          need_add_bot = false;
+          WIN = false;
 
 
-
-            M = new string[size1, size2];
-            for (int i = 0; i < size1; i++)
-                for (int j = 0; j < size2; j++)
-                    M[i, j] = " ";
+          M = new string[size1, size2];
+          for (int i = 0; i < size1; i++)
+          {
+            for (int j = 0; j < size2; j++)
+            {
+              M[i, j] = " ";
+            }
+          }
         }
+
+        public void Load(ContentManager Content)
+        {
+          wallTex = Content.Load<Texture2D>(@"Textures/stone");
+          brickTex = Content.Load<Texture2D>(@"Textures/brick");
+          bombTex = Content.Load<Texture2D>(@"Textures/bomb");
+          fireTex = Content.Load<Texture2D>(@"Textures/fire");
+          bangSound = Content.Load<SoundEffect>(@"Sound/bang");
+          tmpTex = Content.Load<Texture2D>(@"Textures/tmp_tex");
+          bon_tolk_Tex = Content.Load<Texture2D>(@"Textures/bonus_tolk");
+          bon_rad_Tex = Content.Load<Texture2D>(@"Textures/bonus_rad");
+          bon_bomb_Tex = Content.Load<Texture2D>(@"Textures/bonus_bomb");
+          bon_speed_bot_Tex = Content.Load<Texture2D>(@"Textures/bonus_speed_bot");
+          bon_speed_Tex = Content.Load<Texture2D>(@"Textures/bonus_speed");
+          LevelFont = Content.Load<SpriteFont>(@"gameFont");
+          bot_dead_sound = Content.Load<SoundEffect>(@"Sound/bot_dead");
+          bonus_up_mus = Content.Load<SoundEffect>(@"Sound/bonus_up");
+          plant_bomb_mus = Content.Load<SoundEffect>(@"Sound/plant_bomb");
+          player_dead_mus = Content.Load<SoundEffect>(@"Sound/player_dead");
+
+          LevelFontPos = new Vector2(250, 250);
+        }
+
+        public void Update(GameTime gameTime)
+        {
+          KeyboardState State = Keyboard.GetState();
+
+          if (WIN == true)
+          {
+            bot_add_time = 10000;
+          }
+
+          if (lvl_up == true)
+          {
+            lvl_start = true;
+            key_lock = true;
+            curent_lvl++;
+            create_world();
+            int_game_time = 0;
+            if (curent_lvl >= 6)
+            {
+              creep_speed = 2;
+            }
+            lvl_up = false;
+          }
+
+          //int i = 0;
+
+          globalGameTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+          GlobalGT = gameTime;
+
+          if (globalGameTime > 1)
+            game_control_time(gameTime);
+        }
+
 
         //время бонусов
         public void set_bonus_time()
@@ -276,7 +344,6 @@ namespace BomberMan
                 M[player_pos_i - I, player_pos_j - J] = " ";
         }
 
-
         // игровое время, выдающее бонусы
         public void game_control_time(GameTime gameTime)
         {
@@ -306,7 +373,7 @@ namespace BomberMan
                     M[1, 1] = "P";
                     player_pos_i = 1;
                     player_pos_j = 1;
-                    Hero_pos = new Vector2(40, 40);
+                    //Hero_pos = new Vector2(40, 40);
                     M[1, 0] = "0";
                     M[0, 1] = "0";
                     key_lock = false;
@@ -341,9 +408,5 @@ namespace BomberMan
             }
 
         }
-
-
-   
-        //end file
     }
 }

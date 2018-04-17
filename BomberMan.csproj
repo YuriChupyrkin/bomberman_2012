@@ -107,9 +107,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bomb.cs" />
     <Compile Include="bots.cs" />
     <Compile Include="Creep.cs" />
     <Compile Include="environment.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="hero.cs" />
     <Compile Include="Menu\menu.cs" />
     <Compile Include="Menu\MenuItems.cs" />
