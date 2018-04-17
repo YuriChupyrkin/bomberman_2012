@@ -85,17 +85,17 @@ namespace BomberMan
         public SoundEffect plant_bomb_mus;
         public SoundEffect player_dead_mus;
 
-        public environment()
+        public environment(int sizeX = 16, int sizeY = 25, int cellWidth = 40, int cellHeight = 40)
         {
             frame = 0;
             TimeForFrame = (float)1 / 5;
             TotalTime = 0;
             FrameCount = 5; // <---- tut kol kadrov
 
-            size1 = 16;
-            size2 = 25;
-            X_cell = 40;
-            Y_cell = 40;
+            size1 = sizeX;
+            size2 = sizeY;
+            X_cell = cellWidth;
+            Y_cell = cellHeight;
             max_num_bomb = 10;
             curent_num_bomb = 0;
             bonus_tolk = true;

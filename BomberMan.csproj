@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="bots.cs" />
+    <Compile Include="Creep.cs" />
     <Compile Include="environment.cs" />
     <Compile Include="hero.cs" />
     <Compile Include="Menu\menu.cs" />
@@ -117,6 +118,11 @@
     <Compile Include="Game1.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Textures\go_down_hero.png" />
+    <Content Include="Content\Textures\go_left_hero.png" />
+    <Content Include="Content\Textures\go_right_hero.png" />
+    <Content Include="Content\Textures\go_up_hero.png" />
+    <Content Include="Content\Textures\hero.png" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
@@ -152,6 +158,36 @@
       <ProductName>Microsoft XNA Framework Redistributable 4.0</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\gameFont.xnb" />
+    <None Include="Content\menuFont.xnb" />
+    <None Include="Content\Sound\bang.xnb" />
+    <None Include="Content\Sound\bonus_up.xnb" />
+    <None Include="Content\Sound\bot_dead.xnb" />
+    <None Include="Content\Sound\plant_bomb.xnb" />
+    <None Include="Content\Sound\player_dead.xnb" />
+    <None Include="Content\Textures\background.xnb" />
+    <None Include="Content\Textures\bomb.xnb" />
+    <None Include="Content\Textures\bonus_bomb.xnb" />
+    <None Include="Content\Textures\bonus_rad.xnb" />
+    <None Include="Content\Textures\bonus_speed.xnb" />
+    <None Include="Content\Textures\bonus_speed_bot.xnb" />
+    <None Include="Content\Textures\bonus_tolk.xnb" />
+    <None Include="Content\Textures\brick.xnb" />
+    <None Include="Content\Textures\creep.xnb" />
+    <None Include="Content\Textures\fire.xnb" />
+    <None Include="Content\Textures\go_down_creep.xnb" />
+    <None Include="Content\Textures\go_down_hero.xnb" />
+    <None Include="Content\Textures\go_left_creep.xnb" />
+    <None Include="Content\Textures\go_left_hero.xnb" />
+    <None Include="Content\Textures\go_right_creep.xnb" />
+    <None Include="Content\Textures\go_right_hero.xnb" />
+    <None Include="Content\Textures\go_up_creep.xnb" />
+    <None Include="Content\Textures\go_up_hero.xnb" />
+    <None Include="Content\Textures\hero.xnb" />
+    <None Include="Content\Textures\stone.xnb" />
+    <None Include="Content\Textures\tmp_tex.xnb" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
